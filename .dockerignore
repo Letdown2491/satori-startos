@@ -1,0 +1,3 @@
+# The image is built entirely from the upstream clone in the Dockerfile, so nothing
+# from this packaging repo needs to enter the build context.
+*
