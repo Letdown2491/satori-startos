@@ -1,0 +1,24 @@
+# Fast feedback on every push/PR: type-check the StartOS package. The full .s9pk
+# build (start-cli + docker + the upstream Satori clone) runs in build-s9pk.yml.
+name: ci
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm ci
+      - name: type-check (tsc --noEmit)
+        run: npm run check

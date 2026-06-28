@@ -1,0 +1,30 @@
+# Builds the .s9pk in CI via Start9's maintained shared workflow, which installs
+# start-cli and runs `make` (all arches). Unlike a submodule-based package, nothing
+# extra needs to be checked out: the Dockerfile clones the upstream Satori source at
+# build time, so the public Satori repo is the only external requirement.
+#
+# This verifies the package compiles; it does not publish. DEV_KEY is omitted, so the
+# shared workflow generates a temporary signing key (fine for build verification). Add
+# a `DEV_KEY` repo secret later to produce a consistently signed s9pk.
+name: build-s9pk
+
+on:
+  push:
+    branches: [main]
+    paths-ignore: ["**.md"]
+  pull_request:
+    branches: [main]
+    paths-ignore: ["**.md"]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    # Run on push/dispatch always; on PRs only when not a draft.
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    uses: start9labs/shared-workflows/.github/workflows/build.yml@master
+    with:
+      FREE_DISK_SPACE: true   # multi-arch docker build (x86_64 + aarch64) needs headroom
