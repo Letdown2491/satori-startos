@@ -34,8 +34,20 @@ export const manifest = setupManifest({
     start: null,
     stop: null,
   },
-  // No service dependencies. Inbound Tor (the .onion address) is provided by StartOS
-  // itself, and outbound Tor uses the host's Tor SOCKS proxy (tor.startos:9050, set
-  // in main.ts) — neither is modeled as a package dependency here.
-  dependencies: {},
+  // Tor is required. In StartOS 0.4.0 Tor is a service (package id `tor`), and Satori
+  // needs it both ways: StartOS publishes Satori's private .onion through it, and Satori
+  // routes its own outbound traffic (.onion relays + Privacy Mode) through Tor's SOCKS
+  // proxy at `tor.startos:9050` (set in main.ts — `tor.startos` is this dependency's
+  // internal address). `optional: false` makes it a hard requirement shown in the UI;
+  // the runtime requirement (kind/versionRange) lives in dependencies.ts. `s9pk: null`
+  // sources Tor's title/icon from its registry package.
+  dependencies: {
+    tor: {
+      description:
+        'Publishes Satori as a private .onion service and provides the SOCKS proxy ' +
+        'Satori uses to reach .onion relays and route Privacy Mode traffic.',
+      optional: false,
+      s9pk: null,
+    },
+  },
 })

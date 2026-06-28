@@ -33,11 +33,14 @@ Changing either restarts Satori so the new value takes effect.
 
 ## Tor
 
-- **Reaching Satori** uses StartOS's own Tor: the `.onion` address for the Web UI is
-  provisioned by StartOS, not by Satori. Access is gated by Satori's login wall.
+Satori **requires the Tor service** (StartOS will prompt you to install it). It's used
+both ways:
+
+- **Reaching Satori** — StartOS publishes the Web UI's `.onion` address through Tor.
+  Access is gated by Satori's login wall.
 - **Satori's outbound traffic** — connecting to `.onion` relays and routing fetches
-  through Tor in Privacy Mode — uses your server's Tor SOCKS proxy automatically. No
-  configuration is required.
+  through Tor in Privacy Mode — uses Tor's SOCKS proxy automatically. No configuration
+  is required.
 
 ## Backups
 

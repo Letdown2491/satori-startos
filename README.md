@@ -5,11 +5,11 @@ single-user, server-rendered nostr client that never sees your key.
 
 ## What this package does
 
-- **Inbound over Tor, for free.** StartOS provisions the `.onion` (and LAN-HTTPS) for
-  Satori's Web UI; there is no bundled Tor daemon. Access is gated by Satori's own login
-  wall and owner lock.
+- **Requires the Tor service** (`tor` dependency). StartOS provisions the `.onion` (and
+  LAN-HTTPS) for Satori's Web UI through Tor — no bundled Tor daemon. Access is gated by
+  Satori's own login wall and owner lock.
 - **Outbound over Tor.** Satori's `.onion` relay support and Privacy Mode route through
-  the host Tor SOCKS proxy (`socks5h://tor.startos:9050`), set in `startos/main.ts`.
+  the Tor SOCKS proxy (`socks5h://tor.startos:9050`), set in `startos/main.ts`.
 - **Persistent state** lives in the `main` volume, mounted at `/app/.data`.
 - **Two StartOS actions** — *Access Control* (owner / allowed npubs) and *Timezone*.
   Everything else is configured inside Satori's own Settings page.
@@ -30,7 +30,7 @@ The upstream repo must be public for the unauthenticated clone to succeed.
 
 ```
 startos/
-  manifest/      package id, title, image (dockerBuild), no dependencies
+  manifest/      package id, title, image (dockerBuild), Tor dependency
   interfaces.ts  one 'ui' interface on port 8787
   main.ts        daemon: env (HOST/PORT/TOR_SOCKS/TZ/owner), volume mount, health check
   actions/       set-access, set-timezone (input actions → settings file)

@@ -27,7 +27,7 @@ issue.
 ## Supported versions
 
 This package tracks Satori releases; only the latest packaged version (currently
-`0.1.0`) receives fixes.
+`0.2.0`) receives fixes.
 
 ## Scope notes
 

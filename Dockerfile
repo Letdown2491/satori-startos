@@ -3,8 +3,8 @@
 # Build context is this repo's root (manifest images.satori.source.dockerBuild.workdir
 # = '.'). Rather than vendoring Satori as a submodule, this Dockerfile clones the
 # upstream source at a pinned ref so the package stays self-contained. Bump SATORI_REF
-# to take a new upstream version (prefer a tag/commit over a branch for reproducible
-# builds; `main` is a convenience default until upstream cuts tags).
+# to take a new upstream version. Pinned to a tag for reproducible builds; keep this in
+# step with the package version in startos/versions/current.ts.
 #
 # Satori has no build step: Node runs the TypeScript directly via type-stripping, so the
 # runtime only needs the production npm deps. Multi-arch is handled by the StartOS builder
@@ -12,7 +12,7 @@
 # builds natively.
 FROM node:24-alpine
 
-ARG SATORI_REF=main
+ARG SATORI_REF=v0.2.0
 
 # git to fetch the source; tzdata so Node/ICU can resolve the TZ env (set by StartOS via
 # the Timezone action) — used when parsing/formatting scheduled-post local times.
