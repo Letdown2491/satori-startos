@@ -7,6 +7,32 @@ follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 Changes for the next release accumulate here.
 
+## [0.3.0] - 2026-06-29
+
+Tracks upstream [Satori](https://github.com/Letdown2491/satori) `v0.3.0`. This is an
+upstream feature release; the StartOS packaging is unchanged (same env, port `8787`,
+`/app/.data` volume, and `tor` dependency). Existing installs upgrade in place — the new
+relay-favorites file lands additively under `/app/.data` and needs no migration.
+
+### Changed
+- Bumped the bundled Satori source to `v0.3.0` (`SATORI_REF` in `./Dockerfile`).
+
+### Upstream highlights (from Satori v0.3.0)
+- **NIP-22 comments (kind 1111)** render as proper comment cards and fold into note,
+  picture, and video threads; replies follow NIP-22 on the write side (a reply to a
+  comment/picture/video now posts a kind:1111 comment), and comments show in timelines,
+  profiles, and notifications.
+- **Per-post relay targeting** — a "Relays" picker in the note composer to post a single
+  note to a chosen subset of your NIP-65 write relays (or a one-off `wss://…`).
+- **Relay timelines** — browse any relay's feed at `/relay?r=…` and star favorites
+  (stored on this server only). Private/loopback hosts are rejected.
+- **Scheduling** now also covers articles and quote reposts, not just notes.
+- Security fix: the Messages screen no longer mixes conversations across accounts on the
+  NIP-07 signing path (decrypted-DM cache is now scoped to the active account).
+
+See the [upstream changelog](https://github.com/Letdown2491/satori/blob/v0.3.0/CHANGELOG.md)
+for the full list.
+
 ## [0.2.0] - 2026-06-27
 
 Initial StartOS package for [Satori](https://github.com/Letdown2491/satori),
@@ -32,5 +58,6 @@ tracking upstream `v0.2.0`.
   StartOS backups. Your nostr key is never on disk — Satori signs via NIP-46 bunker
   or NIP-07 — so it is not in the backup.
 
-[Unreleased]: https://github.com/Letdown2491/satori-startos/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/Letdown2491/satori-startos/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/Letdown2491/satori-startos/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/Letdown2491/satori-startos/releases/tag/v0.2.0

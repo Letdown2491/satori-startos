@@ -12,7 +12,7 @@
 # builds natively.
 FROM node:24-alpine
 
-ARG SATORI_REF=v0.2.0
+ARG SATORI_REF=v0.3.0
 
 # git to fetch the source; tzdata so Node/ICU can resolve the TZ env (set by StartOS via
 # the Timezone action) — used when parsing/formatting scheduled-post local times.
