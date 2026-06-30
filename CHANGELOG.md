@@ -7,6 +7,27 @@ follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 Changes for the next release accumulate here.
 
+## [0.3.1] - 2026-06-30
+
+Tracks upstream [Satori](https://github.com/Letdown2491/satori) `v0.3.1`. This is an
+upstream feature release; the StartOS packaging is unchanged (same env, port `8787`,
+`/app/.data` volume, and `tor` dependency). Existing installs upgrade in place — there is
+no new on-disk data shape, so no migration is needed.
+
+### Changed
+- Bumped the bundled Satori source to `v0.3.1` (`SATORI_REF` in `./Dockerfile`).
+
+### Upstream highlights (from Satori v0.3.1)
+- **Custom NIPs (kind 30817)** now render as full articles — a Markdown body with a title
+  and an optional list of the event kinds the NIP defines — instead of unsupported
+  content, with comments, likes, zaps, and bookmarks.
+- **Engagement state** (replies, reposts, likes) now reflects correctly on every
+  addressable event kind, extending beyond articles to calendar events, classifieds, and
+  videos.
+
+See the [upstream changelog](https://github.com/Letdown2491/satori/blob/v0.3.1/CHANGELOG.md)
+for the full list.
+
 ## [0.3.0] - 2026-06-29
 
 Tracks upstream [Satori](https://github.com/Letdown2491/satori) `v0.3.0`. This is an
@@ -58,6 +79,7 @@ tracking upstream `v0.2.0`.
   StartOS backups. Your nostr key is never on disk — Satori signs via NIP-46 bunker
   or NIP-07 — so it is not in the backup.
 
-[Unreleased]: https://github.com/Letdown2491/satori-startos/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/Letdown2491/satori-startos/compare/v0.3.1...HEAD
+[0.3.1]: https://github.com/Letdown2491/satori-startos/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/Letdown2491/satori-startos/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/Letdown2491/satori-startos/releases/tag/v0.2.0
