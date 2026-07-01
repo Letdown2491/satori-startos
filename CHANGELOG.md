@@ -7,6 +7,25 @@ follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 Changes for the next release accumulate here.
 
+## [0.4.1] - 2026-07-01
+
+Tracks upstream [Satori](https://github.com/Letdown2491/satori) `v0.4.1`. This is an
+upstream maintenance release; the StartOS packaging is unchanged (same env, port `8787`,
+`/app/.data` volume, and `tor` dependency). Existing installs upgrade in place — the fix
+is UI-only with no new on-disk data shape, so no migration is needed.
+
+### Changed
+- Bumped the bundled Satori source to `v0.4.1` (`SATORI_REF` in `./Dockerfile`).
+
+### Upstream highlights (from Satori v0.4.1)
+- **Composer tab consistency** — the "Picture" compose mode (NIP-68) had become
+  inaccessible from the Article screen, whose tab list had drifted to only Note, Poll, and
+  Article. All four compose tabs now render from a single shared helper, preventing the
+  tab sets from diverging again.
+
+See the [upstream changelog](https://github.com/Letdown2491/satori/blob/v0.4.1/CHANGELOG.md)
+for the full list.
+
 ## [0.4.0] - 2026-07-01
 
 Tracks upstream [Satori](https://github.com/Letdown2491/satori) `v0.4.0`. This is an
@@ -109,7 +128,8 @@ tracking upstream `v0.2.0`.
   StartOS backups. Your nostr key is never on disk — Satori signs via NIP-46 bunker
   or NIP-07 — so it is not in the backup.
 
-[Unreleased]: https://github.com/Letdown2491/satori-startos/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/Letdown2491/satori-startos/compare/v0.4.1...HEAD
+[0.4.1]: https://github.com/Letdown2491/satori-startos/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/Letdown2491/satori-startos/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/Letdown2491/satori-startos/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/Letdown2491/satori-startos/compare/v0.2.0...v0.3.0
