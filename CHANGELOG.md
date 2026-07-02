@@ -7,6 +7,35 @@ follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 Changes for the next release accumulate here.
 
+## [0.4.2] - 2026-07-02
+
+Tracks upstream [Satori](https://github.com/Letdown2491/satori) `v0.4.2`. This is an
+upstream feature-and-maintenance release; the StartOS packaging is unchanged (same env,
+port `8787`, `/app/.data` volume, and `tor` dependency). Existing installs upgrade in
+place — the new relay-latency profile is additive under `/app/.data`, so no migration is
+needed.
+
+### Changed
+- Bumped the bundled Satori source to `v0.4.2` (`SATORI_REF` in `./Dockerfile`).
+
+### Upstream highlights (from Satori v0.4.2)
+- **Relay latency profiling** — per-relay query response times are now recorded to
+  `.data/relay-latency.json` (path configurable via `SATORI_RELAY_LATENCY_FILE`; set
+  `SATORI_REQ_LOG=1` to log per-relay timings). Preparatory work for adaptive timeouts.
+  The file lands under `/app/.data`, so it is covered by StartOS backups.
+- **Commons timeline removed** — the curated trending feed backed by a single hardcoded
+  relay was dropped as architecturally misaligned, along with its `/commons` route, data
+  fetching, cached pages, and UI. This removes cached content, not persisted user data.
+- **Header navigation dropdown** — the header title now acts as a dropdown on every page
+  (not just timelines), for quick jumps between feeds and relay browsing from anywhere.
+- **Fixes** — nip07 draft syncing is anchored to a user gesture so it works correctly;
+  literal `<br>` tags and Setext-style headings now render in articles; draft deletion
+  gains inline confirmation and a collapse animation; and bookmark/mute list management
+  gets live header counts and proper empty states.
+
+See the [upstream changelog](https://github.com/Letdown2491/satori/blob/v0.4.2/CHANGELOG.md)
+for the full list.
+
 ## [0.4.1] - 2026-07-01
 
 Tracks upstream [Satori](https://github.com/Letdown2491/satori) `v0.4.1`. This is an
@@ -128,7 +157,8 @@ tracking upstream `v0.2.0`.
   StartOS backups. Your nostr key is never on disk — Satori signs via NIP-46 bunker
   or NIP-07 — so it is not in the backup.
 
-[Unreleased]: https://github.com/Letdown2491/satori-startos/compare/v0.4.1...HEAD
+[Unreleased]: https://github.com/Letdown2491/satori-startos/compare/v0.4.2...HEAD
+[0.4.2]: https://github.com/Letdown2491/satori-startos/compare/v0.4.1...v0.4.2
 [0.4.1]: https://github.com/Letdown2491/satori-startos/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/Letdown2491/satori-startos/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/Letdown2491/satori-startos/compare/v0.3.0...v0.3.1
