@@ -7,6 +7,46 @@ follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 Changes for the next release accumulate here.
 
+## [0.5.0] - 2026-07-03
+
+Tracks upstream [Satori](https://github.com/Letdown2491/satori) `v0.5.0`. This is an
+upstream feature-and-hardening release; the StartOS packaging is unchanged (same env,
+port `8787`, `/app/.data` volume, and `tor` dependency). Existing installs upgrade in
+place — the new features read and write additively under `/app/.data`, so no migration is
+needed.
+
+### Changed
+- Bumped the bundled Satori source to `v0.5.0` (`SATORI_REF` in `./Dockerfile`).
+
+### Upstream highlights (from Satori v0.5.0)
+- **Custom timelines** — any content type can be designated as its own timeline via the
+  header switcher (e.g. a Pictures-only feed, or a custom-NIPs feed); articles are now one
+  of these customizable timelines rather than a separate Longform tab.
+- **Per-post relay targeting** — the Poll, Article, and Picture composers gain the relay
+  picker already in the Notes composer: a globe icon reveals write relays as toggleable
+  chips plus a manual `wss://…` field; empty selection defaults to all write relays.
+- **Scheduled picture posts** — picture posts can be scheduled for future publication and
+  are broadcast by the daemon even when the browser is closed, using the same mechanism as
+  scheduled notes and articles.
+- **Faster Following feed** — the landing paints on a tight deadline from fast-relay
+  results while off-feed polling uses adaptive per-relay timeouts learned from actual
+  response patterns; slow-relay notes are buffered and counted by the "N new notes"
+  indicator. A `feedRecovery` counter is added at `GET /metrics`.
+- **Videos inline by default** — "Load nostr videos inline" now defaults ON (still
+  suppressed under Strict privacy mode and toggleable in Settings).
+- **Security hardening** — `GET /metrics` is now restricted to the instance owner (reuses
+  the existing `SATORI_OWNER` env, already wired by the package); zap receipts (kind:9735)
+  are signature-verified against the embedded request to block forged notifications;
+  `nostr:nsec…` references are redacted rather than linkified; logout clears only the
+  active account's cached data; and pending undo tokens are session-bound.
+- **Fixes** — kind 54 renders as a podcast only with an actual audio track; addressable
+  events (edited articles) deduplicate by `(kind, author, d)`; trailing URL punctuation is
+  no longer swallowed into links; extensionless Blossom media renders via NIP-92 `imeta`;
+  and NIP-23 article topics show as clickable hashtag chips.
+
+See the [upstream changelog](https://github.com/Letdown2491/satori/blob/v0.5.0/CHANGELOG.md)
+for the full list.
+
 ## [0.4.2] - 2026-07-02
 
 Tracks upstream [Satori](https://github.com/Letdown2491/satori) `v0.4.2`. This is an
@@ -157,7 +197,8 @@ tracking upstream `v0.2.0`.
   StartOS backups. Your nostr key is never on disk — Satori signs via NIP-46 bunker
   or NIP-07 — so it is not in the backup.
 
-[Unreleased]: https://github.com/Letdown2491/satori-startos/compare/v0.4.2...HEAD
+[Unreleased]: https://github.com/Letdown2491/satori-startos/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/Letdown2491/satori-startos/compare/v0.4.2...v0.5.0
 [0.4.2]: https://github.com/Letdown2491/satori-startos/compare/v0.4.1...v0.4.2
 [0.4.1]: https://github.com/Letdown2491/satori-startos/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/Letdown2491/satori-startos/compare/v0.3.1...v0.4.0
