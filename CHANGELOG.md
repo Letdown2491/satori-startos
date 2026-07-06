@@ -7,6 +7,48 @@ follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 Changes for the next release accumulate here.
 
+## [0.6.0] - 2026-07-06
+
+Tracks upstream [Satori](https://github.com/Letdown2491/satori) `v0.6.0`. This is an
+upstream feature-and-reliability release; the StartOS packaging is unchanged (same env,
+port `8787`, `/app/.data` volume, and `tor` dependency). Existing installs upgrade in
+place — the new features read and write additively under `/app/.data`, so no migration is
+needed.
+
+### Changed
+- Bumped the bundled Satori source to `v0.6.0` (`SATORI_REF` in `./Dockerfile`).
+
+### Upstream highlights (from Satori v0.6.0)
+- **Private relay** — in Settings > Relays you can point Satori at one personal relay of
+  your own (an aggregator, outbox, or blaster) by `ws://`, `wss://`, or `.onion` URL, with
+  a live reachability status line. Read/Write each toggle between `Add` (use it alongside
+  your normal relays) and `Only` (route exclusively through it, skipping the outbox and
+  your NIP-65 relays). It stays private and is never published to your relay list. NIP-42
+  auth works on both signing families (bunker authenticates itself; a browser extension
+  prompts an `Authenticate` click). In `Only` mode an off-by-default `Fetch missing` toggle
+  fills gaps (profiles, quoted notes, reply avatars) from your normal relays.
+- **Following feeds route around dead relays** — Satori now uses its record of which of
+  your follows' relays actually return notes when choosing where to read, so an always-empty
+  relay loses its place to one that delivers and crowded-out follows are read from their own
+  relays. Fewer missing notes, less time waiting on relays with nothing for you.
+- **Restructured Relays settings** — the Relays tab is now a two-pane hub (General, DMs,
+  Search, Private) with one URL each (e.g. `/settings/relays/dm`). Search relays moved into
+  Relays > Search, so the standalone Search settings tab is gone (its old URL redirects).
+- **Pictures timeline on by default** — the header switcher gains a Pictures entry (picture
+  posts from people you follow), keeping pictures out of the main feed while still browsing
+  them in one place. Toggle it off in Settings > Content.
+- **Removed the Followers timeline** — the header switcher now lists Following plus your
+  promoted content-type timelines; the "who follows you" view has been dropped from it.
+- **Fixes** — bookmarks and pins now remember a note's author and where it was seen (not
+  just its id), so they still load after the note leaves the relays you saw it on; the
+  Bookmarks count reflects what actually loads. (Bookmarks saved before this update stored
+  only the id, so some may no longer load.) Picture posts that also carry the image URL in
+  their caption no longer show the image twice. Relay trust-score chips in Settings load
+  reliably again, including while a private relay is routing reads.
+
+See the [upstream changelog](https://github.com/Letdown2491/satori/blob/v0.6.0/CHANGELOG.md)
+for the full list.
+
 ## [0.5.0] - 2026-07-03
 
 Tracks upstream [Satori](https://github.com/Letdown2491/satori) `v0.5.0`. This is an
@@ -197,7 +239,8 @@ tracking upstream `v0.2.0`.
   StartOS backups. Your nostr key is never on disk — Satori signs via NIP-46 bunker
   or NIP-07 — so it is not in the backup.
 
-[Unreleased]: https://github.com/Letdown2491/satori-startos/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/Letdown2491/satori-startos/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/Letdown2491/satori-startos/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/Letdown2491/satori-startos/compare/v0.4.2...v0.5.0
 [0.4.2]: https://github.com/Letdown2491/satori-startos/compare/v0.4.1...v0.4.2
 [0.4.1]: https://github.com/Letdown2491/satori-startos/compare/v0.4.0...v0.4.1
