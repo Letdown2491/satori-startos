@@ -7,6 +7,31 @@ follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 Changes for the next release accumulate here.
 
+## [0.6.2] - 2026-07-07
+
+Tracks upstream [Satori](https://github.com/Letdown2491/satori) `v0.6.2`. This is an
+upstream bug-fix release; the StartOS packaging is unchanged (same env, port `8787`,
+`/app/.data` volume, and `tor` dependency). Existing installs upgrade in place — the fixes
+are client-side connection handling with no on-disk data shape change, so no migration is
+needed.
+
+### Changed
+- Bumped the bundled Satori source to `v0.6.2` (`SATORI_REF` in `./Dockerfile`).
+
+### Upstream highlights (from Satori v0.6.2)
+- **The feed no longer comes back empty after your computer sleeps.** When a laptop
+  suspends, its connections to relays die quietly, and Satori kept trying to use those
+  dead connections after waking, so pages loaded blank and Private relay's Fetch missing
+  pulled nothing from your normal relays. Satori now notices the gap and reopens fresh
+  connections as soon as you're back, so the feed fills in like usual.
+- **Private relay in Only mode with Fetch missing on now fills every gap in a batch.**
+  Opening a set of bookmarks would stop short if your private relay held even one of them,
+  leaving the rest blank. It now fetches whichever ones your private relay is missing from
+  your normal relays.
+
+See the [upstream changelog](https://github.com/Letdown2491/satori/blob/v0.6.2/CHANGELOG.md)
+for the full list.
+
 ## [0.6.1] - 2026-07-06
 
 Tracks upstream [Satori](https://github.com/Letdown2491/satori) `v0.6.1`. This is an
@@ -260,7 +285,8 @@ tracking upstream `v0.2.0`.
   StartOS backups. Your nostr key is never on disk — Satori signs via NIP-46 bunker
   or NIP-07 — so it is not in the backup.
 
-[Unreleased]: https://github.com/Letdown2491/satori-startos/compare/v0.6.1...HEAD
+[Unreleased]: https://github.com/Letdown2491/satori-startos/compare/v0.6.2...HEAD
+[0.6.2]: https://github.com/Letdown2491/satori-startos/compare/v0.6.1...v0.6.2
 [0.6.1]: https://github.com/Letdown2491/satori-startos/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/Letdown2491/satori-startos/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/Letdown2491/satori-startos/compare/v0.4.2...v0.5.0
