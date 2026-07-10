@@ -7,6 +7,32 @@ follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 Changes for the next release accumulate here.
 
+## [0.6.3] - 2026-07-09
+
+Tracks upstream [Satori](https://github.com/Letdown2491/satori) `v0.6.3`. This is an
+upstream performance-focused release; the StartOS packaging is unchanged (same env, port
+`8787`, `/app/.data` volume, and `tor` dependency). Existing installs upgrade in place —
+the changes are performance and caching optimizations with no on-disk data shape change,
+so no migration is needed.
+
+### Changed
+- Bumped the bundled Satori source to `v0.6.3` (`SATORI_REF` in `./Dockerfile`).
+
+### Upstream highlights (from Satori v0.6.3)
+- **Pages load faster and lighter.** Pages and partial updates are now gzip-compressed on
+  the wire, cutting feed and thread HTML significantly. Styles and scripts revalidate
+  cheaply with ETags, and quoted articles and wiki pages now cache like quoted notes.
+- **Relay lookups return sooner.** Single-note lookups return on the first relay to answer
+  instead of waiting for all of them, and notifications and search start up faster via
+  parallel relay lookups. Users without a published relay list no longer cause slowdowns —
+  the "asked, found none" result is cached for an hour.
+- **Fixes.** Tor sidecar connectivity restoration, avatar-cache growth containment, relay
+  rejection logging, a rendering freeze, cache write durability, NIP-40 expiration
+  handling, and NIP-37 draft relay encryption compliance.
+
+See the [upstream changelog](https://github.com/Letdown2491/satori/blob/v0.6.3/CHANGELOG.md)
+for the full list.
+
 ## [0.6.2] - 2026-07-07
 
 Tracks upstream [Satori](https://github.com/Letdown2491/satori) `v0.6.2`. This is an
@@ -285,7 +311,8 @@ tracking upstream `v0.2.0`.
   StartOS backups. Your nostr key is never on disk — Satori signs via NIP-46 bunker
   or NIP-07 — so it is not in the backup.
 
-[Unreleased]: https://github.com/Letdown2491/satori-startos/compare/v0.6.2...HEAD
+[Unreleased]: https://github.com/Letdown2491/satori-startos/compare/v0.6.3...HEAD
+[0.6.3]: https://github.com/Letdown2491/satori-startos/compare/v0.6.2...v0.6.3
 [0.6.2]: https://github.com/Letdown2491/satori-startos/compare/v0.6.1...v0.6.2
 [0.6.1]: https://github.com/Letdown2491/satori-startos/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/Letdown2491/satori-startos/compare/v0.5.0...v0.6.0
