@@ -7,6 +7,46 @@ follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 Changes for the next release accumulate here.
 
+## [0.7.0] - 2026-08-01
+
+Tracks upstream [Satori](https://github.com/Letdown2491/satori) `v0.7.0`, and picks up
+`v0.6.4` (released the same day) along the way. The StartOS packaging is unchanged (same
+env, port `8787`, `/app/.data` volume, and `tor` dependency). Existing installs upgrade
+in place — v0.7.0 adds new on-disk state (persisted deletion tombstones) additively, so
+no migration is needed. The upstream v0.6.3 Tor sidecar fix does not apply here: this
+package uses the StartOS `tor` service, not the compose sidecar.
+
+### Changed
+- Bumped the bundled Satori source to `v0.7.0` (`SATORI_REF` in `./Dockerfile`).
+
+### Upstream highlights (from Satori v0.7.0)
+- **Delete your own posts (NIP-09).** Every post of yours carries a trash glyph with an
+  inline confirm; confirming publishes a deletion request and the post disappears from
+  your own views immediately. Deletion requests are also honored when reading — recorded
+  on arrival, checked in the background, and persisted across restarts — so deleted
+  events no longer render forever from caches. Only the author's own deletion counts.
+- **Relays introduce themselves (NIP-11).** Relay settings rows, the browse picker, and
+  relay timelines lead with each relay's own name and description, with auth/paid chips
+  where declared. Search skips relays whose documents say they don't support NIP-50.
+- **Unknown event kinds explain themselves (NIP-31).** The fallback card shows the
+  author's `alt` summary instead of just "Unsupported event" and a kind number.
+- **Fixes.** NIP-54 wiki slugs for non-Latin titles, article-like reaction state across
+  restarts, poll-vote inflation by crafted votes, NIP-84 highlight commentary rendering,
+  picture posts rejecting video, NIP-22 comment-reply fallbacks, uppercase hex ids
+  breaking follows, sealed-DM seal signature verification (NIP-59), and a timed-out list
+  read no longer lets a follow/mute/bookmark/pin toggle wipe the whole list.
+
+### Upstream highlights (from Satori v0.6.4)
+- **Write-only blast relays are routed around.** Relays that refuse or never serve reads
+  are detected from normal traffic and dropped from feed routing, lookups, and profile
+  fetches; people routed to them move to their real relays. Your private relay is never
+  demoted, so Only mode keeps working.
+- **Fixes.** Auth-required relays added in Settings take effect immediately instead of
+  after a restart, and NIP-42 authentication log lines now name the relay.
+
+See the [upstream changelog](https://github.com/Letdown2491/satori/blob/v0.7.0/CHANGELOG.md)
+for the full list.
+
 ## [0.6.3] - 2026-07-09
 
 Tracks upstream [Satori](https://github.com/Letdown2491/satori) `v0.6.3`. This is an
@@ -311,7 +351,8 @@ tracking upstream `v0.2.0`.
   StartOS backups. Your nostr key is never on disk — Satori signs via NIP-46 bunker
   or NIP-07 — so it is not in the backup.
 
-[Unreleased]: https://github.com/Letdown2491/satori-startos/compare/v0.6.3...HEAD
+[Unreleased]: https://github.com/Letdown2491/satori-startos/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/Letdown2491/satori-startos/compare/v0.6.3...v0.7.0
 [0.6.3]: https://github.com/Letdown2491/satori-startos/compare/v0.6.2...v0.6.3
 [0.6.2]: https://github.com/Letdown2491/satori-startos/compare/v0.6.1...v0.6.2
 [0.6.1]: https://github.com/Letdown2491/satori-startos/compare/v0.6.0...v0.6.1
